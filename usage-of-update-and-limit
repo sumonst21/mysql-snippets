@@ -1,0 +1,15 @@
+UPDATE table1
+SET table1.export = '2015-03-31'
+WHERE table1.number IN 
+(
+    SELECT number
+    FROM
+    (
+        SELECT table1.number
+        FROM `table1`
+        INNER JOIN Address ON Address.Mobile = table1.number
+        LEFT JOIN tps ON tps.number = table1.number
+        WHERE Address.Surname != '' and tps.number is null AND table1.export = '0000-00-00'
+        limit 100000
+    ) sub1
+) sub2
